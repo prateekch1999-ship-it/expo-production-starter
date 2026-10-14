@@ -41,3 +41,8 @@ example
 # generated native folders
 /ios
 /android
+
+# internal planning — not part of the shipped kit
+expo-boilerplate-plan.md
+week-1-kickoff-prompt.md
+v2-ideas.md

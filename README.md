@@ -1,56 +1,87 @@
-# Welcome to your Expo app 👋
+# PrateekKit Starter
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A production React Native starter kit built on Expo. TypeScript strict, file-based routing, a
+token-based design system, and a feature-first architecture that stays readable as the app grows.
 
-## Get started
+> **Status: in active development.** This repo is being built in the open over 10 weeks. What is
+> listed under **What's here now** works and is verified. Everything else is on the roadmap and not
+> yet written. Nothing below describes code that does not exist.
 
-1. Install dependencies
+## What's here now
 
-   ```bash
-   npm install
-   ```
+- Expo SDK 57 with TypeScript `strict: true` and zero `any`
+- Expo Router with typed routes — tabs, stack, modal, dynamic route, and a 404 screen
+- Path aliases (`@/*`) working across Metro, TypeScript, and Jest from a single `tsconfig.json`
+- ESLint (flat config) + Prettier + a pre-commit hook via husky and lint-staged
+- Feature-first folder architecture, documented per directory
 
-2. Start the app
+## Roadmap
 
-   ```bash
-   npx expo start
-   ```
+Design token system and core primitives · auth with refresh-token queueing · offline-first
+mutations · push notifications · EAS CI/CD · payments · observability · a config-driven form engine.
 
-In the output, you'll find options to open the app in a
+The free/paid split is defined in [TIERS.md](./TIERS.md).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Requirements
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+|              | Version                                                                           |
+| ------------ | --------------------------------------------------------------------------------- |
+| Node         | `^20.19.4 \|\| ^22.13.0 \|\| ^24.3.0 \|\| >= 25.0.0` (from `react-native@0.86.3`) |
+| Expo SDK     | 57                                                                                |
+| React Native | 0.86.3                                                                            |
+| React        | 19.2.3                                                                            |
+| TypeScript   | 6.0.x                                                                             |
 
-## Get a fresh project
+Xcode for iOS, Android Studio for Android. Neither is needed to run in Expo Go.
 
-When you're ready, run:
+## Quick start
 
 ```bash
-npm run reset-project
+npm install
+npm start        # then press i for iOS, a for Android
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Scripts
 
-### Other setup steps
+| Script                            | What it does                                             |
+| --------------------------------- | -------------------------------------------------------- |
+| `npm start`                       | Start the dev server                                     |
+| `npm run ios` / `npm run android` | Start and open a simulator/emulator                      |
+| `npm run typecheck`               | `tsc --noEmit` — also validates every typed route `href` |
+| `npm run lint`                    | ESLint via `expo lint`                                   |
+| `npm run format`                  | Prettier write                                           |
+| `npm run format:check`            | Prettier check — use this in CI                          |
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Project structure
 
-## Learn more
+```
+src/
+  app/          Expo Router routes only — thin, no logic
+  features/     self-contained feature modules
+  components/   shared design system primitives
+  theme/        design tokens
+  lib/          API client, storage, adapters
+  utils/        pure functions
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Each directory has its own `README.md` explaining what belongs there and what does not. Read those
+before adding code — the architecture rules are enforced in review.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Notes on the setup
 
-## Join the community
+**No web target.** `react-native-web` and the web output are removed. Every primitive has one
+implementation, not two.
 
-Join our community of developers creating universal apps.
+**React Compiler is on** (`experiments.reactCompiler`). Memoize only where there is a measurable
+reason; the compiler handles the rest. Components must follow the rules of React strictly.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Classic JS tabs, not `NativeTabs`.** `NativeTabs` is still `unstable_`-prefixed and cannot be
+restyled with the token system. Tabs are imported from `expo-router/tabs`, not from the package
+root — `Tabs` is not exported at the root in SDK 57.
+
+**`expo prebuild` keeps working.** No patch that breaks ejection is accepted. `ios/` and `android/`
+stay out of version control.
+
+## License
+
+Free tier: [MIT](./LICENSE).

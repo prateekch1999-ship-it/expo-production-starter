@@ -2,19 +2,14 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    // Order matters: jest-expo derives Jest's moduleNameMapper from this object and Jest matches
+    // mappers in order, so the specific "@/assets/*" must stay above the "@/*" catch-all.
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/assets/*": [
-        "./assets/*"
-      ]
-    }
+      "@/assets/*": ["./assets/*"],
+      "@/*": ["./src/*"]
+    },
+    // TypeScript 6 no longer auto-includes every @types package.
+    "types": ["jest"]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }

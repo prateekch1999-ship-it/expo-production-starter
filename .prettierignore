@@ -1,0 +1,14 @@
+node_modules/
+.expo/
+dist/
+ios/
+android/
+package-lock.json
+
+# Expo-generated icon metadata
+assets/
+
+# Planning docs — hand-formatted, not product docs
+CLAUDE.md
+expo-boilerplate-plan.md
+week-1-kickoff-prompt.md
